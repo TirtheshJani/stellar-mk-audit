@@ -158,13 +158,25 @@ Lower-stakes decisions committed in code. Logged here for reproducibility and Ph
 
 ---
 
+## 16. VizieR resolution probe deferred to Phase 0 preconditions
+
+- **Date:** 2026-04-19
+- **Decision:** Phase -1 VizieR resolution check (CLAUDE.md §5.1) could not execute in the current sandbox; `astroquery.vizier.Vizier.get_catalogs('J/A+A/666/A121')` returned HTTP 403 Forbidden against `https://vizier.cds.unistra.fr/viz-bin/votable`. Captured verbatim in `artifacts/vizier_probe.log`. The CLAUDE.md §5.1 kill criterion ("VizieR does not resolve AND no CDS mirror is available") is NOT satisfied: VizieR serves J/A+A/666/A121 publicly; the 403 is a sandbox egress restriction, not a VizieR outage. Action: defer the probe to a network-enabled environment and re-run as a Phase 0 precondition before any label build. No change to decision 4.
+- **Reasoning:** Physicist-post review (2026-04-19) confirmed VizieR availability at the literature level and classified the 403 as environmental. Coder correctly refused to fabricate a probe response per CLAUDE.md rule 2.
+- **Reversal:** the re-run from a network-enabled environment returns zero tables or columns that do not map to `_VIZIER_ALIASES` in `src/interpret/labels.py`; at that point trigger the Phase -1 kill criterion and escalate to TJ for a pivot (SIMBAD Option C or manual catalog download).
+- **Affects:** Phase 0 preconditions (CLAUDE.md §5.2); `artifacts/vizier_probe.log`; the commit message of 7f67b11 ("vizier verified") is retained as-is for hash stability but its truth is conditioned on the re-run documented here.
+
+---
+
 ## Pending decisions (to resolve in-phase)
 
 These are decisions `project_plan.md` defers until data is in hand. Log them here as they resolve.
 
+- **[PENDING Phase 0]** Re-run VizieR probe from a network-enabled environment per decision 16; confirm table count and column aliases before build_labels.
 - **[PENDING Phase 2]** 5-fold CV vs single-split. Default per `CLAUDE.md` §5.4 is 5-fold; fall back to single-split if implementation blocks for more than 4 hours.
 - **[PENDING Phase 4]** Add Ca I to the headline ablation gate, or keep it as a secondary result. `project_plan.md` Phase 4 mentions only H_balmer/Mg_b/Na_D in the falsifiable gate.
 - **[PENDING Phase 5]** Download source for Pickles UVKLIB. VizieR J/PASP/110/863 or the ESO mirror at `www.eso.org/sci/observing/tools/standards/IR_spectral_library.html`. Log the chosen source and the download date.
+- **[PENDING Phase 6]** Add a one-sentence scope clarification to manuscript methods: "causal" in "causal masked-line ablation" refers to a feature-intervention (do-operator on masking) on a fixed trained model, not to the data-generating process. Physicist-pre 2026-04-19.
 
 ---
 
