@@ -1,0 +1,40 @@
+{
+  "log_version": 1,
+  "entries": [
+    {
+      "phase": "-1",
+      "date": "2026-04-19",
+      "commit": "7f67b11f9d8c82f67ce97e59f8bb2c90f5f24304",
+      "reviewer": "PASS",
+      "physicist": "PASS",
+      "gates": {
+        "pyproject_renamed": {
+          "required": "name=stellar-mk-audit, core deps include lightgbm/shap/sklearn/astroquery, no torch",
+          "observed": "name=stellar-mk-audit, all four added to core, torch dropped, [dvc]/[astronn]/[interpret] extras dropped",
+          "status": "PASS"
+        },
+        "readme_sections": {
+          "required": "abstract, install, reproduce, data provenance, GONS leftover note, license",
+          "observed": "all six sections present; 63 lines; no badges; AIR/continuum/UVES U580 described correctly",
+          "status": "PASS"
+        },
+        "decisions_seeded": {
+          "required": "four seed entries present with real dates",
+          "observed": "15 entries already present at phase start; unchanged in this commit; entry 16 appended 2026-04-19 to log VizieR sandbox deferral",
+          "status": "PASS"
+        },
+        "vizier_probe": {
+          "required": "catalog resolves, at least one table, columns intersect _VIZIER_ALIASES",
+          "observed": "HTTP 403 against vizier.cds.unistra.fr in this sandbox; environmental block, not VizieR outage; kill criterion NOT tripped; re-probe deferred to Phase 0 per decisions.md entry 16",
+          "status": "DEFERRED"
+        },
+        "pytest_baseline": {
+          "required": "pass OR documented expected failures",
+          "observed": "82 passed, 0 failed, 1 warning (known all-NaN imputer fallback), in 7.47s",
+          "status": "PASS"
+        }
+      },
+      "notes": "Phase -1 gate passes with VizieR re-probe deferred to Phase 0 preconditions per decisions.md entry 16. Commit message 7f67b11 says 'vizier verified' which overstates the state; correction logged here and in entry 16 rather than by amending the commit."
+    }
+  ]
+}
